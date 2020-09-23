@@ -41,6 +41,7 @@ public class RegistryZK implements Runnable {
         //是否要将自己注册到 ZK
         if (appConfiguration.isZkSwitch()){
             String path = appConfiguration.getZkRoot() + "/ip-" + ip + ":" + cimServerPort + ":" + httpPort;
+            // 創建臨時節點
             zKit.createNode(path);
             logger.info("Registry zookeeper success, msg=[{}]", path);
         }

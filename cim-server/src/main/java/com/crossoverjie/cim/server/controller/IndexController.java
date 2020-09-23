@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Function:
  *
  * @author crossoverJie
- *         Date: 22/05/2018 14:46
+ * Date: 22/05/2018 14:46
  * @since JDK 1.8
  */
 @Controller
@@ -37,27 +37,32 @@ public class IndexController implements ServerApi {
     @Autowired
     private CounterService counterService;
 
+
     /**
      *
-     * @param sendMsgReqVO
-     * @return
      */
     @Override
     @ApiOperation("Push msg to client")
-    @RequestMapping(value = "sendMsg",method = RequestMethod.POST)
+    // 使用 post的方式，请求的url是
+    @RequestMapping(value = "sendMsg", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse<SendMsgResVO> sendMsg(@RequestBody SendMsgReqVO sendMsgReqVO){
+    // 這個sendMsgReqVO 入参从哪里来的   ip:port/sendMsg
+    public BaseResponse<SendMsgResVO> sendMsg(@RequestBody SendMsgReqVO sendMsgReqVO) {
         BaseResponse<SendMsgResVO> res = new BaseResponse();
-        cimServer.sendMsg(sendMsgReqVO) ;
 
+        //  cimServer.sendMsg 是发给谁的？
+        cimServer.sendMsg(sendMsgReqVO);
+
+        // 服务端手动 push 次数 自增
         counterService.increment(Constants.COUNTER_SERVER_PUSH_COUNT);
 
-        SendMsgResVO sendMsgResVO = new SendMsgResVO() ;
-        sendMsgResVO.setMsg("OK") ;
-        res.setCode(StatusEnum.SUCCESS.getCode()) ;
-        res.setMessage(StatusEnum.SUCCESS.getMessage()) ;
-        res.setDataBody(sendMsgResVO) ;
-        return res ;
+        // 这个消息返回给谁？
+        SendMsgResVO sendMsgResVO = new SendMsgResVO();
+        sendMsgResVO.setMsg("OK");
+        res.setCode(StatusEnum.SUCCESS.getCode());
+        res.setMessage(StatusEnum.SUCCESS.getMessage());
+        res.setDataBody(sendMsgResVO);
+        return res;
     }
 
 }

@@ -23,6 +23,8 @@ public class CIMServerApplication implements CommandLineRunner{
 	@Autowired
 	private AppConfiguration appConfiguration ;
 
+
+	// 从配置文件中导入
 	@Value("${server.port}")
 	private int httpPort ;
 
@@ -34,8 +36,9 @@ public class CIMServerApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		//获得本机IP
-		String addr = InetAddress.getLocalHost().getHostAddress();
-		Thread thread = new Thread(new RegistryZK(addr, appConfiguration.getCimServerPort(),httpPort));
+		String localHostIP = InetAddress.getLocalHost().getHostAddress();
+		// 开启线程到zk注册本机
+		Thread thread = new Thread(new RegistryZK(localHostIP, appConfiguration.getCimServerPort(),httpPort));
 		thread.setName("registry-zk");
 		thread.start() ;
 	}

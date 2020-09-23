@@ -22,12 +22,11 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.net.InetSocketAddress;
 
+
+
+
 /**
- * Function:
- *
- * @author crossoverJie
- *         Date: 21/05/2018 00:30
- * @since JDK 1.8
+ *  CIMServer 启动，监听11211端口
  */
 @Component
 public class CIMServer {
