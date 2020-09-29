@@ -56,6 +56,8 @@ public class CIMServer {
                 .localAddress(new InetSocketAddress(nettyPort))
                 //保持长连接
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
+
+                // 重点在这里，CIMServerInitializer 会嵌入处理的方法
                 .childHandler(new CIMServerInitializer());
 
         ChannelFuture future = bootstrap.bind().sync();
@@ -81,8 +83,9 @@ public class CIMServer {
      * @param sendMsgReqVO 消息
      */
     public void sendMsg(SendMsgReqVO sendMsgReqVO){
-        NioSocketChannel socketChannel = SessionSocketHolder.get(sendMsgReqVO.getUserId());
 
+        //
+        NioSocketChannel socketChannel = SessionSocketHolder.get(sendMsgReqVO.getUserId());
         if (null == socketChannel) {
             LOGGER.error("client {} offline!", sendMsgReqVO.getUserId());
         }

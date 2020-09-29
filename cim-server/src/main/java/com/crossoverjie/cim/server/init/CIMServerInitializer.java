@@ -32,6 +32,7 @@ public class CIMServerInitializer extends ChannelInitializer<Channel> {
                 .addLast(new ProtobufDecoder(CIMRequestProto.CIMReqProtocol.getDefaultInstance()))
                 .addLast(new ProtobufVarint32LengthFieldPrepender())
                 .addLast(new ProtobufEncoder())
+                // 這個就是  业务逻辑处理的重点
                 .addLast(cimServerHandle);
     }
 }
